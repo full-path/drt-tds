@@ -1,0 +1,796 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:tcrp="http://www.tcrp.gov/schema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+
+  <xsd:element name="tripRequest" type="tripRequestType"/>
+  <xsd:element name="tripRequestResponse" type="tripRequestResponseType"/>
+  <xsd:element name="clientOrderConfirmation" type="clientOrderConfirmationType"/>
+  <xsd:element name="customerInfo" type="customerInfoType"/>
+  <xsd:element name="providerOrderConfirmation" type="providerOrderConfirmationType"/>
+  <xsd:element name="vehicleConfirmation" type="vehicleConfirmationType"/>
+  <xsd:element name="tripTask" type="tripTaskType"/>
+  <xsd:element name="tripTaskConfirmation" type="tripTaskConfirmationType"/>
+  <xsd:element name="tripTaskCompletion" type="tripTaskCompletionType"/>
+  <xsd:element name="tripScheduledConfirmation" type="tripScheduledConfirmationType"/>
+  <xsd:element name="tripTaskStatus" type="tripTaskStatusType"/>
+  
+  <xsd:complexType name="tripRequestType">
+    <xsd:annotation>
+      <xsd:documentation>Telegram #: 1A; From: ordering client; To: trip provider(s); Purpose: query for trip availability</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="pickupAddress" type="addressType"></xsd:element>
+      <xsd:element name="dropoffAddress" type="addressType"/>
+      <xsd:element name="pickupTime" type="time"/>
+      <xsd:element name="appointmentTime" type="time" minOccurs="0"/>
+      <xsd:element name="dropoffTime" type="time" minOccurs="0"/>
+      <xsd:element name="pickupWindowStartTime" type="time" minOccurs="0"/>
+      <xsd:element name="pickupWindowEndTime" type="time" minOccurs="0"/>
+      <xsd:element name="detoursPermissible" type="xsd:boolean" minOccurs="0"/>
+      <xsd:element name="negotiatedPickupTime" type="time" minOccurs="0"/>
+      <xsd:element name="hardConstraintOnPickupTime" type="xsd:boolean" minOccurs="0"/>
+      <xsd:element name="hardConstraintOnDropoffTime" type="xsd:boolean" minOccurs="0"/>
+    </xsd:sequence>
+    <xsd:attribute name="specialAttributes" type="specialAttributesList" use="optional"/>
+    <xsd:attribute name="transportServices" type="valueList" use="optional"/>
+    <xsd:attribute name="openAttribute" type="xsd:string" use="optional">
+      <xsd:annotation>
+        <xsd:documentation>open attribute for local use</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
+
+  <xsd:complexType name="tripRequestResponseType">
+    <xsd:annotation>
+      <xsd:documentation>Telegram #: 1B; From: trip provider; To: ordering client; Purpose: reply to telegram 1A</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="tripAvailable" type="xsd:boolean" minOccurs="0"/>
+      <xsd:element name="scheduledPickupTime" type="time" minOccurs="0"/>
+      <xsd:element name="scheduledPickupPoint" type="addressType" minOccurs="0"/>
+      <xsd:element name="scheduledDropoffPoint" type="addressType" minOccurs="0"/>
+      <xsd:element name="transferPoint" type="addressType" minOccurs="0"/>
+    </xsd:sequence>
+    <xsd:attribute name="paymentTypeList" use="optional"/>      
+    <xsd:attribute name="fareAmount" type="xsd:float" use="optional"/>
+    <xsd:attribute name="transportServices" type="valueList" use="optional"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="clientOrderConfirmationType">
+    <xsd:annotation>
+      <xsd:documentation>Telegram #: 2A; From: ordering client; To: trip provider(s); Purpose: order confirmation</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="tripTicketId" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>unique ID from ordering client</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="pickupAddress" type="addressType"/>
+      <xsd:element name="dropoffAddress" type="addressType"/>
+      <xsd:element name="pickupTime" type="time"/>
+      <xsd:element name="appointmentTime" type="time" minOccurs="0"/>
+      <xsd:element name="dropoffTime" type="time" minOccurs="0"/>
+      <xsd:element name="pickupWindowStartTime" type="time" minOccurs="0"/>
+      <xsd:element name="pickupWindowEndTime" type="time" minOccurs="0"/>
+      <xsd:element name="detoursPermissible" type="xsd:boolean" minOccurs="0"/>
+      <xsd:element name="negotiatedPickupTime" type="time" minOccurs="0"/>
+      <xsd:element name="hardConstraintOnPickupTime" type="xsd:boolean" minOccurs="0"/>
+      <xsd:element name="hardConstraintOnDropoffTime" type="xsd:boolean" minOccurs="0"/>
+      <xsd:element name="detailedDropoffLocationDescription"  type="xsd:string" minOccurs="0"/>
+      <xsd:element name="detailedPickupLocationDescription"  type="xsd:string" minOccurs="0"/>
+      <xsd:element name="customerName" type="xsd:string" />
+      <xsd:element name="customerMobilePhone" type="xsd:integer" minOccurs="0"/>
+      <xsd:element name="customerLocInDropoffSequence" type="xsd:positiveInteger" minOccurs="0"/>
+      <xsd:element name="numOtherReservedPassengers" type="xsd:integer" minOccurs="0"/>
+      <xsd:element name="fundingEntityId" type="xsd:string"/>
+    </xsd:sequence>
+    <xsd:attribute name="customerId" type="xsd:string" use="optional"/>
+    <xsd:attribute name="paymentType" type="paymentTypeList" use="optional"/>      
+    <xsd:attribute name="fareAmount" type="xsd:float" use="optional"/>
+    <xsd:attribute name="tripPurpose" type="tripPurposeList" use="optional"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="customerInfoType">
+    <xsd:annotation>
+      <xsd:documentation>Telegram #: 2A1; From: ordering client; To: trip provider(s); Purpose: customer info for trip</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="customerName" type="xsd:string"  minOccurs="0"/>
+      <xsd:element name="customerAddress" type="addressType"  minOccurs="0"/>
+      <xsd:element name="customerPhone" type="xsd:integer"  minOccurs="0"/>
+      <xsd:element name="customerMobilePhone" type="xsd:integer"  minOccurs="0"/>
+      <xsd:element name="customerBillingAddress" type="addressType"  minOccurs="0"/>
+      <xsd:element name="fundingEntityBillingInformation" type="xsd:string"  minOccurs="0"/>
+      <xsd:element name="fundingType" type="xsd:boolean"  minOccurs="0"/>
+      <xsd:element name="gender" type="xsd:string"  minOccurs="0"/>
+      <xsd:element name="caregiverContactInformation" type="xsd:string"  minOccurs="0"/>
+      <xsd:element name="customerEmergencyPhoneNumber" type="xsd:integer"  minOccurs="0"/>
+      <xsd:element name="customerEmergencyContactName" type="xsd:string"  minOccurs="0"/>
+      <xsd:element name="requiredCareComments" type="xsd:string"  minOccurs="0"/>
+      <xsd:element name="dateOfBirth" type="xsd:date"  minOccurs="0"/>
+      <xsd:element name="customerId" type="xsd:string"  minOccurs="0"/>
+      <xsd:element name="paymentType" type="paymentTypeList"  minOccurs="0"/>
+      <xsd:element name="notesForDriver" type="xsd:string"  minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="providerOrderConfirmationType">
+    <xsd:annotation>
+      <xsd:documentation>Telegram #: 2B; From: trip provider; To: ordering client; Purpose: confirm trip is scheduled</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="tripTicketId" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>unique ID from ordering client</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="scheduledPickupTime" type="time"/>
+      <xsd:element name="scheduledPickupPoint" type="addressType"/>
+      <xsd:element name="scheduledDropoffPoint" type="addressType"/>
+      <xsd:element name="transferPoint" type="addressType" minOccurs="0"/>
+    </xsd:sequence>
+    <xsd:attribute name="paymentType" type="paymentTypeList" use="optional"/>      
+    <xsd:attribute name="fareAmount" type="xsd:float" use="optional"/>
+    <xsd:attribute name="transportServices" type="valueList" use="optional"/>
+    <xsd:attribute name="vehicleNumber" type="xsd:string" use="optional"/>
+    <xsd:attribute name="driverId" type="xsd:string" use="optional"/>
+    <xsd:attribute name="vehicleInformation" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="vehicleConfirmationType">
+    <xsd:annotation>
+      <xsd:documentation>Telegram #: 2BB; From: trip provider; To: ordering client; Purpose: confirm vehicle</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="vehicleNumber" type="xsd:string"  minOccurs="0"/>
+      <xsd:element name="driverId" type="xsd:string"  minOccurs="0"/>
+      <xsd:element name="vehicleInformation" type="xsd:string"  minOccurs="0"/>
+      <xsd:element name="availabilityForService" type="time"  minOccurs="0"/>
+    </xsd:sequence>
+    <xsd:attribute name="fuelRange" type="xsd:float"  use="optional"/>
+    <xsd:attribute name="ambulatorySpacePoints" type="xsd:integer"  use="optional"/>
+    <xsd:attribute name="largeWheelchairSpacePoints" type="xsd:integer"  use="optional"/>
+    <xsd:attribute name="hasRamp" type="xsd:boolean"  use="optional"/>
+    <xsd:attribute name="hasLift" type="xsd:boolean"  use="optional"/>
+    <xsd:attribute name="standardWheelchairSpacePoints" type="xsd:integer"  use="optional"/>
+    <xsd:attribute name="cargoSpacePoints" type="xsd:integer"  use="optional"/>
+    <xsd:attribute name="vehicleId" type="xsd:integer"  use="optional"/>
+    <xsd:attribute name="vehicleModel" type="xsd:string"  use="optional"/>
+    <xsd:attribute name="conversionFactorForAmbulatoryPointsToStandardWheelchairPoints" type="xsd:float"  use="optional"/>
+    <xsd:attribute name="conversionFactorForAmbulatoryPointsToLargeWheelchairPoints" type="xsd:float"  use="optional"/>
+    <xsd:attribute name="flatFloor" type="xsd:string"  use="optional"/>
+    <xsd:attribute name="owner" type="xsd:string"  use="optional"/>
+    <xsd:attribute name="rideVibrationQuality" type="xsd:string"  use="optional"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="tripTaskType">
+    <xsd:annotation>
+      <xsd:documentation>Telegram #: 3A; From: trip provider; To: vehicle; Purpose: control vehicle</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="tripTaskId" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>unique ID from provider</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="tripTicketId" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>unique ID from ordering client</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="customerPickupLocInVehPerformanceSequence" type="xsd:positiveInteger"/>
+      <xsd:element name="pickupNodeAddress" type="addressType"/>
+      <xsd:element name="pickupNodeScheduledTime" type="time"/>
+      <xsd:element name="detailedPickupLocationDescription" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="customerDropoffLocInVehPerformanceSequence" type="xsd:positiveInteger"/>
+      <xsd:element name="dropoffNodeAddress" type="addressType"/>
+      <xsd:element name="dropoffNodeScheduledTime" type="time"/>
+      <xsd:element name="detailedDropoffLocationDescription" type="xsd:string" minOccurs="0"/>
+      <xsd:element name="customerMobilePhone" type="xsd:integer" minOccurs="0"/>
+      <xsd:element name="customerName" type="xsd:string"/>
+      <xsd:element name="numOtherReservedPassengers" type="xsd:integer" minOccurs="0"/>
+      </xsd:sequence>
+      <xsd:attribute name="notesForDriver" type="xsd:string" use="optional">
+      <xsd:annotation>
+      <xsd:documentation>Free-form long text field for notes to driver concerning customer service needs</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="specialAttributes" type="specialAttributesList" use="optional"/>
+    <xsd:attribute name="paymentType" type="paymentTypeList" use="optional"/>
+    <xsd:attribute name="fareAmount" type="xsd:float" use="optional"/>
+    </xsd:complexType>
+
+  <xsd:complexType name="tripTaskConfirmationType">
+    <xsd:annotation>
+      <xsd:documentation>Telegram #: 3B; From: vehicle; To: trip provider; Purpose: confirm vehicle performed task</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="tripTaskId" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>unique ID from provider</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="tripTicketId" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>unique ID from ordering client</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="customerLocInDropoffSequence" type="xsd:positiveInteger"/>
+      <xsd:element name="nodePerformedTime" type="time"/>
+      <xsd:element name="vehicleNumber" type="xsd:string"/>
+    </xsd:sequence>
+    <xsd:attribute name="tripStatus" use="required">
+    <xsd:simpleType>
+      <xsd:restriction base="xsd:string">
+        <xsd:enumeration value="performed"/>
+        <xsd:enumeration value="no show"/>
+        <xsd:enumeration value="no pickup"/>
+      </xsd:restriction>
+    </xsd:simpleType>
+    </xsd:attribute>
+    <xsd:attribute name="driverId" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="tripTaskCompletionType">
+    <xsd:annotation>
+      <xsd:documentation>Telegram #: 4A; From: trip provider(s); To: ordering client; Purpose: performed trip data</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="tripTicketId" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>unique ID from ordering client</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="cost" type="xsd:float"/>
+      <xsd:element name="pickupAddress" type="addressType" minOccurs="0"/>
+      <xsd:element name="pickupTime" type="time"/>
+      <xsd:element name="dropoffAddress" type="addressType" minOccurs="0"/>
+      <xsd:element name="dropoffTime" type="time"/>
+      <xsd:element name="scheduledPickupPoint" type="addressType" minOccurs="0"/>
+      <xsd:element name="scheduledPickupTime" type="time" minOccurs="0"/>
+      <xsd:element name="scheduledDropoffPoint" type="addressType" minOccurs="0"/>
+      <xsd:element name="scheduledDropoffTime" type="time" minOccurs="0"/>
+      <xsd:element name="performedPickupPoint" type="addressType" minOccurs="0"/>
+      <xsd:element name="performedPickupTime" type="time" minOccurs="0"/>
+      <xsd:element name="performedDropoffPoint" type="addressType" minOccurs="0"/>
+      <xsd:element name="performedDropoffTime" type="time" minOccurs="0"/>
+      <xsd:element name="detoursPermissible" type="xsd:boolean" minOccurs="0"/>
+      <xsd:element name="transferPoint" type="addressType" minOccurs="0"/>
+    </xsd:sequence>
+    <xsd:attribute name="paymentType" type="paymentTypeList" use="optional"/>
+    <xsd:attribute name="fareAmount" type="xsd:float" use="optional"/>
+    <xsd:attribute name="specialAttributes" type="specialAttributesList" use="optional"/>
+    <xsd:attribute name="transportServices" type="valueList" use="optional"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="tripScheduledConfirmationType">
+    <xsd:annotation>
+      <xsd:documentation>Telegram #: 4B; From: trip provider; To: ordering client; Purpose: confirm trip is scheduled for vehicle</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="tripTicketId" type="xsd:string">
+        <xsd:annotation>
+          <xsd:documentation>unique ID from ordering client</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="dataReceived" type="xsd:boolean"/>
+    </xsd:sequence>
+    <xsd:attribute name="paymentRejected" type="xsd:boolean" use="optional"/>
+  </xsd:complexType>
+
+  <xsd:complexType name="tripTaskStatusType">
+    <xsd:annotation>
+      <xsd:documentation>Telegram #: 5; From: vehicle; To: trip provider; Purpose: GPS and trip status</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="vehicleNumber" type="xsd:string"/>
+      <xsd:element name="GPS" type="geographicLocation"/>
+      <xsd:element name="timecode" type="time"/>
+      <xsd:element name="driverId" type="xsd:string"  minOccurs="0"/>
+      <xsd:element name="tripTaskId" type="xsd:string" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>unique ID from provider</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+    <xsd:attribute name="driverHours" type="xsd:float"  use="optional">
+      <xsd:annotation>
+        <xsd:documentation>current value</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="odometerReading" type="xsd:float"  use="optional">
+      <xsd:annotation>
+        <xsd:documentation>current value</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="passengerMiles" type="xsd:float"  use="optional">
+      <xsd:annotation>
+        <xsd:documentation>current value</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="vehicleHours" type="xsd:float"  use="optional">
+      <xsd:annotation>
+        <xsd:documentation>current value</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="vehicleMiles" type="xsd:float"  use="optional">
+      <xsd:annotation>
+        <xsd:documentation>current value</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="boardingsAndAlightingsAtTripEnd" type="xsd:string"  use="optional"/>
+    <xsd:attribute name="otherFleetVariables" type="xsd:string"  use="optional"/>
+  </xsd:complexType>
+  
+  <xsd:complexType name="addressType">
+    <xsd:annotation>
+      <xsd:documentation>The address known to receiving system</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="manualDescriptionAddress" type="manualDescriptionType" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element name="geographicLocation" type="geographicLocation" minOccurs="0"/>
+      <xsd:element name="idAddressName" type="idType" minOccurs="0"/>
+      <xsd:element name="idStreet" minOccurs="0">
+        <xsd:complexType mixed="false">
+          <xsd:complexContent>
+            <xsd:extension base="idType"/>
+          </xsd:complexContent>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="idPostalCode" type="idType" minOccurs="0"/>
+      <xsd:element name="idCommunity" type="idType" minOccurs="0"/>
+      <xsd:element name="idCountry" type="idType" minOccurs="0">
+        <xsd:annotation>
+          <xsd:documentation>Id identifying Country. Source (src)  shall refer to ISO 3166-1</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="idZone" type="idType" minOccurs="0" maxOccurs="unbounded">
+        <xsd:annotation>
+          <xsd:documentation>Id of a used Zone or zoneset. Source (src)  shall refer to either a general zone defined between sender and receiver or to a zoneset used by one or both of the systems.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+      <xsd:element name="idMap" type="idType" minOccurs="0" maxOccurs="unbounded">
+        <xsd:annotation>
+          <xsd:documentation>Used map. Source (src)  shall refer to used map.</xsd:documentation>
+        </xsd:annotation>
+      </xsd:element>
+    </xsd:sequence>
+    <xsd:attribute name="addressName" type="xsd:string" use="optional"/>
+    <xsd:attribute name="street" type="xsd:string" use="optional"/>
+    <xsd:attribute name="streetNo" type="xsd:positiveInteger" use="optional"/>
+    <xsd:attribute name="streetNoLetter" type="xsd:string" use="optional"/>
+    <xsd:attribute name="location" type="xsd:string" use="optional"/>
+    <xsd:attribute name="community" type="xsd:string" use="optional"/>
+    <xsd:attribute name="postalNo" type="xsd:string" use="optional"/>
+    <xsd:attribute name="country" type="xsd:string" use="optional"/>
+    <xsd:attribute name="mapPage" type="xsd:string" use="optional"/>
+  </xsd:complexType>
+  
+  <xsd:complexType name="geographicLocation">
+    <xsd:annotation>
+      <xsd:documentation>The coordinates for the address and potentially a known zone</xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="vehicleDistance" type="vehicleDistance" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+    <xsd:attribute name="zone" type="xsd:string" use="optional"/>
+    <xsd:attribute name="typeOfCoordinate" use="required">
+      <xsd:annotation>
+        <xsd:documentation>Shall be of type WGS84.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:simpleType>
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="WGS84"/>
+          <xsd:enumeration value="WGS-84"/>
+          <xsd:enumeration value="RT90"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:attribute>
+    <xsd:attribute name="lat" type="xsd:float" use="required">
+      <xsd:annotation>
+        <xsd:documentation>See documentation in Use Cases.</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="long" type="xsd:float" use="required">
+      <xsd:annotation>
+        <xsd:documentation>See documentation in Use Cases.</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="precision" type="xsd:integer" use="required">
+      <xsd:annotation>
+        <xsd:documentation>Precision skall be from GPS-unit in vehicle and measured in meter. This is the deviation in position measured by the &gt;GPS-unit.</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="speed" type="xsd:float" use="optional">
+      <xsd:annotation>
+        <xsd:documentation>Speed shall be from GPS-unit in vehicle and measured in meter per second.</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="speedSource" use="optional">
+      <xsd:annotation>
+        <xsd:documentation>Speed measured at GPS or VEHICLE.</xsd:documentation>
+      </xsd:annotation>
+      <xsd:simpleType>
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="gpsunit"/>
+          <xsd:enumeration value="taximeter"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:attribute>
+    <xsd:attribute name="direction" type="xsd:integer" use="optional">
+      <xsd:annotation>
+        <xsd:documentation>Direction shall be from GPS-unit in vehichle and measured in degrees (0 - 360 degrees).</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="height" type="xsd:float" use="optional">
+      <xsd:annotation>
+        <xsd:documentation>Height shall be from GPS-unit in vehichle and measured in meter. May be measured in meter with decimals.</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="deviationSpeed" type="xsd:float" use="optional">
+      <xsd:annotation>
+        <xsd:documentation>Deviation in speed.</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
+  <xsd:complexType name="time">
+    <xsd:annotation>
+      <xsd:documentation>Should normally be the local time.</xsd:documentation>
+    </xsd:annotation>
+    <xsd:attribute name="timeAccuracy" type="xsd:string" use="optional">
+      <xsd:annotation>
+        <xsd:documentation>Used to indicate accepted deviation in attribute time</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="timeZone" type="xsd:integer" use="optional">
+      <xsd:annotation>
+        <xsd:documentation>Timezone used in comunication. Default is local timezone. See ISO 8601 for more information.</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="time" type="xsd:dateTime" use="required" form="unqualified"/>
+    <xsd:attribute name="dwellTime" type="xsd:int" use="optional">
+      <xsd:annotation>
+        <xsd:documentation>Time used to finish this node</xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="timeType" use="optional">
+      <xsd:annotation>
+        <xsd:documentation>Type of time.  See enumerations</xsd:documentation>
+      </xsd:annotation>
+      <xsd:simpleType>
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="2101"/>
+          <xsd:enumeration value="scheduledtime"/>
+          <xsd:enumeration value="2102"/>
+          <xsd:enumeration value="estimatedtime"/>
+          <xsd:enumeration value="2103"/>
+          <xsd:enumeration value="promisedtime"/>
+          <xsd:enumeration value="2104"/>
+          <xsd:enumeration value="actual"/>
+          <xsd:enumeration value="2105"/>
+          <xsd:enumeration value="scheduled"/>
+          <xsd:enumeration value="2107"/>
+          <xsd:enumeration value="estimated"/>
+          <xsd:enumeration value="2106"/>
+          <xsd:enumeration value="promised"/>
+          <xsd:enumeration value="2108"/>
+          <xsd:enumeration value="asap"/>
+          <xsd:enumeration value="estimatedEndtime"/>
+          <xsd:enumeration value="estimatedStarttime"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:attribute>
+  </xsd:complexType>
+
+  <xsd:simpleType name="paymentTypeList">  
+    <xsd:list>
+      <xsd:simpleType>
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="cash"/>
+          <xsd:enumeration value="card"/>
+          <xsd:enumeration value="account"/>
+          <xsd:enumeration value="ticket"/>
+          <xsd:enumeration value="noShow"/>
+          <xsd:enumeration value="providerCompensation"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:list>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="specialAttributesList">
+    <xsd:list>
+      <xsd:simpleType>    
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="A">
+            <xsd:annotation>
+              <xsd:documentation>Mobility Aid: Ambulatory</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="AL">
+            <xsd:annotation>
+              <xsd:documentation>Mobility Aid: Ambulatory lift</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="C">
+            <xsd:annotation>
+              <xsd:documentation>Mobility Aid: Cane</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="CU">
+            <xsd:annotation>
+              <xsd:documentation>Mobility Aid: Crutches</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="D2D">
+            <xsd:annotation>
+              <xsd:documentation>Service Needs: Door to door</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="DA">
+            <xsd:annotation>
+              <xsd:documentation>Service Needs: Driver Alert</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="DTD">
+            <xsd:annotation>
+              <xsd:documentation>Service Needs: Door THROUGH door</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="E">
+            <xsd:annotation>
+              <xsd:documentation>Mobility Aid: Electric wheelchair</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="HIP">
+            <xsd:annotation>
+              <xsd:documentation>Service Needs: hearing impaired</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="IDD">
+            <xsd:annotation>
+              <xsd:documentation>Medical: intellectually or developmentally disabled</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="KD">
+            <xsd:annotation>
+              <xsd:documentation>Medical: Kidney disease</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="MH">
+            <xsd:annotation>
+              <xsd:documentation>Medical: Mental health</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="MIP">
+            <xsd:annotation>
+              <xsd:documentation>Medical: Dementia (memory impaired)</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="NDD">
+            <xsd:annotation>
+              <xsd:documentation>Medical: Neurologic and degenerative diseases</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="NLA">
+            <xsd:annotation>
+              <xsd:documentation>Service Needs: Never leave alone/ no leave alone</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="O">
+            <xsd:annotation>
+              <xsd:documentation>Service Needs: Oxygen</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="S">
+            <xsd:annotation>
+              <xsd:documentation>Mobility Aid: Scooter</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="SA">
+            <xsd:annotation>
+              <xsd:documentation>Service Needs: Service Animal</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="SD">
+            <xsd:annotation>
+              <xsd:documentation>Service Needs: Seizure disorder</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="SI">
+            <xsd:annotation>
+              <xsd:documentation>Medical: Speech impaired</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="TD">
+            <xsd:annotation>
+              <xsd:documentation>Medical: Temporary Disability</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="U">
+            <xsd:annotation>
+              <xsd:documentation>Service Needs: Unstable needs assistance</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="VIP">
+            <xsd:annotation>
+              <xsd:documentation>Medical: Vision impaired</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="W">
+            <xsd:annotation>
+              <xsd:documentation>Mobility Aid: Wheelchair</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="WA">
+            <xsd:annotation>
+              <xsd:documentation>Mobility Aid: Walker</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="WAK">
+            <xsd:annotation>
+              <xsd:documentation>Mobility Aid: Knee walker</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="WE">
+            <xsd:annotation>
+              <xsd:documentation>Mobility Aid: Extended leg w/c = Extended Leg Wheelchair</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="WT">
+            <xsd:annotation>
+              <xsd:documentation>Mobility Aid: Wheelchair, can transfer</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="WW">
+            <xsd:annotation>
+              <xsd:documentation>Mobility Aid: Wide wheelchair</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:list>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="tripPurposeList">
+    <xsd:list>
+      <xsd:simpleType>    
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="A">
+            <xsd:annotation>
+              <xsd:documentation>Adult Day Program</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="D">
+            <xsd:annotation>
+              <xsd:documentation>Dialysis</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="E">
+            <xsd:annotation>
+              <xsd:documentation>Employment</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="G">
+            <xsd:annotation>
+              <xsd:documentation>Grocery</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="HR">
+            <xsd:annotation>
+              <xsd:documentation>Health-Related (includes dentist, pharmacy, etc.)</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="M">
+            <xsd:annotation>
+              <xsd:documentation>Medical</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="P">
+            <xsd:annotation>
+              <xsd:documentation>Personal</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="R">
+            <xsd:annotation>
+              <xsd:documentation>Recreation</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+          <xsd:enumeration value="T">
+            <xsd:annotation>
+              <xsd:documentation>Public transit</xsd:documentation>
+            </xsd:annotation>
+          </xsd:enumeration>
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:list>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="valueList">
+    <xsd:list itemType="xsd:string"/>
+  </xsd:simpleType>
+
+  <xsd:complexType name="idType">
+		<xsd:annotation>
+			<xsd:documentation>General type identification-element</xsd:documentation>
+		</xsd:annotation>
+		<xsd:attribute name="src" use="required">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string"/>
+			</xsd:simpleType>
+		</xsd:attribute>
+		<xsd:attribute name="id" use="required">
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string"/>
+			</xsd:simpleType>
+		</xsd:attribute>
+		<xsd:attribute name="unique" type="xsd:boolean" use="optional" default="true"/>
+	</xsd:complexType>
+
+<xsd:complexType name="manualDescriptionType">
+		<xsd:annotation>
+			<xsd:documentation>Any text aimed for operators, drivers etc</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="idActionText" type="idType" minOccurs="0"/>
+			<xsd:element name="textTimestamp" type="time" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="sendtoInvoice" type="xsd:boolean" use="required">
+			<xsd:annotation>
+				<xsd:documentation>True = message shall be sent to invoicing</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="sendtoVehicle" type="xsd:boolean" use="required">
+			<xsd:annotation>
+				<xsd:documentation>True = message shall be sent to vehicle</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="sendtoOperator" type="xsd:boolean" use="required">
+			<xsd:annotation>
+				<xsd:documentation>True = message shall be sent to operator</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="manualText" type="xsd:string" use="required"/>
+		<xsd:attribute name="vehicleConfirmation" type="xsd:boolean" use="required">
+			<xsd:annotation>
+				<xsd:documentation>True = confirmation that the recipient has been notified shall be sent to client.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="sendingOperator">
+			<xsd:annotation>
+				<xsd:documentation>Attribute to send identity of the operator that has sent this manual text.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+
+	<xsd:complexType name="vehicleDistance">
+		<xsd:sequence>
+			<xsd:element name="startTime" type="time">
+				<xsd:annotation>
+					<xsd:documentation>The time period to propose car starts</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="stopTime" type="time">
+				<xsd:annotation>
+					<xsd:documentation>The time period to propose car stops</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="range" type="xsd:int">
+			<xsd:annotation>
+				<xsd:documentation>The distance within which an unoccupied vehicle shall be proposed </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="rangeUnit" use="optional">
+			<xsd:annotation>
+				<xsd:documentation>Type of unit in range.</xsd:documentation>
+			</xsd:annotation>
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="meter"/>
+					<xsd:enumeration value="seconds"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+	</xsd:complexType>
+
+</xsd:schema>
