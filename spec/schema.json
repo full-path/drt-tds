@@ -1,0 +1,1085 @@
+{
+	"$schema": "http://json-schema.org/draft-04/schema#",
+	"additionalProperties": false,
+	"definitions": {
+		"..idType.1": {
+			"additionalProperties": false,
+			"properties": {
+				"@id": {
+					"type": "string"
+				},
+				"@src": {
+					"type": "string"
+				},
+				"@unique": {
+					"$ref": "#/definitions/xsd:boolean"
+				}
+			},
+			"required": [
+				"@src",
+				"@id"
+			],
+			"type": "object"
+		},
+		".clientOrderConfirmation": {
+			"$ref": "#/definitions/clientOrderConfirmationType"
+		},
+		".customerInfo": {
+			"$ref": "#/definitions/customerInfoType"
+		},
+		".providerOrderConfirmation": {
+			"$ref": "#/definitions/providerOrderConfirmationType"
+		},
+		".tripRequest": {
+			"$ref": "#/definitions/tripRequestType"
+		},
+		".tripRequestResponse": {
+			"$ref": "#/definitions/tripRequestResponseType"
+		},
+		".tripScheduledConfirmation": {
+			"$ref": "#/definitions/tripScheduledConfirmationType"
+		},
+		".tripTask": {
+			"$ref": "#/definitions/tripTaskType"
+		},
+		".tripTaskCompletion": {
+			"$ref": "#/definitions/tripTaskCompletionType"
+		},
+		".tripTaskConfirmation": {
+			"$ref": "#/definitions/tripTaskConfirmationType"
+		},
+		".tripTaskStatus": {
+			"$ref": "#/definitions/tripTaskStatusType"
+		},
+		".vehicleConfirmation": {
+			"$ref": "#/definitions/vehicleConfirmationType"
+		},
+		"addressType": {
+			"additionalProperties": false,
+			"description": "The address known to receiving system",
+			"properties": {
+				"@addressName": {
+					"$ref": "#/definitions/xsd:string"
+				},
+				"@community": {
+					"$ref": "#/definitions/xsd:string"
+				},
+				"@country": {
+					"$ref": "#/definitions/xsd:string"
+				},
+				"@location": {
+					"$ref": "#/definitions/xsd:string"
+				},
+				"@mapPage": {
+					"$ref": "#/definitions/xsd:string"
+				},
+				"@postalNo": {
+					"$ref": "#/definitions/xsd:string"
+				},
+				"@street": {
+					"$ref": "#/definitions/xsd:string"
+				},
+				"@streetNo": {
+					"$ref": "#/definitions/xsd:positiveInteger"
+				},
+				"@streetNoLetter": {
+					"$ref": "#/definitions/xsd:string"
+				},
+				"geographicLocation": {
+					"$ref": "#/definitions/geographicLocation"
+				},
+				"idAddressName": {
+					"$ref": "#/definitions/idType"
+				},
+				"idCommunity": {
+					"$ref": "#/definitions/idType"
+				},
+				"idCountry": {
+					"$ref": "#/definitions/idType",
+					"description": "Id identifying Country. Source (src)  shall refer to ISO 3166-1"
+				},
+				"idMap": {
+					"anyOf": [
+						{
+							"$ref": "#/definitions/idType",
+							"description": "Used map. Source (src)  shall refer to used map."
+						},
+						{
+							"items": {
+								"$ref": "#/definitions/idType",
+								"description": "Used map. Source (src)  shall refer to used map."
+							},
+							"type": "array"
+						}
+					]
+				},
+				"idPostalCode": {
+					"$ref": "#/definitions/idType"
+				},
+				"idStreet": {
+					"$ref": "#/definitions/..idType.1"
+				},
+				"idZone": {
+					"anyOf": [
+						{
+							"$ref": "#/definitions/idType",
+							"description": "Id of a used Zone or zoneset. Source (src)  shall refer to either a general zone defined between sender and receiver or to a zoneset used by one or both of the systems."
+						},
+						{
+							"items": {
+								"$ref": "#/definitions/idType",
+								"description": "Id of a used Zone or zoneset. Source (src)  shall refer to either a general zone defined between sender and receiver or to a zoneset used by one or both of the systems."
+							},
+							"type": "array"
+						}
+					]
+				},
+				"manualDescriptionAddress": {
+					"anyOf": [
+						{
+							"$ref": "#/definitions/manualDescriptionType"
+						},
+						{
+							"items": {
+								"$ref": "#/definitions/manualDescriptionType"
+							},
+							"type": "array"
+						}
+					]
+				}
+			},
+			"type": "object"
+		},
+		"clientOrderConfirmationType": {
+			"additionalProperties": false,
+			"description": "Telegram #: 2A; From: ordering client; To: trip provider(s); Purpose: order confirmation",
+			"properties": {
+				"@customerId": {
+					"$ref": "#/definitions/xsd:string"
+				},
+				"@fareAmount": {
+					"$ref": "#/definitions/xsd:float"
+				},
+				"@paymentType": {
+					"$ref": "#/definitions/paymentTypeList"
+				},
+				"@tripPurpose": {
+					"$ref": "#/definitions/tripPurposeList"
+				},
+				"appointmentTime": {
+					"$ref": "#/definitions/time"
+				},
+				"customerLocInDropoffSequence": {
+					"$ref": "#/definitions/xsd:positiveInteger"
+				},
+				"customerMobilePhone": {
+					"$ref": "#/definitions/xsd:integer"
+				},
+				"customerName": {
+					"$ref": "#/definitions/xsd:string"
+				},
+				"detailedDropoffLocationDescription": {
+					"$ref": "#/definitions/xsd:string"
+				},
+				"detailedPickupLocationDescription": {
+					"$ref": "#/definitions/xsd:string"
+				},
+				"detoursPermissible": {
+					"$ref": "#/definitions/xsd:boolean"
+				},
+				"dropoffAddress": {
+					"$ref": "#/definitions/addressType"
+				},
+				"dropoffTime": {
+					"$ref": "#/definitions/time"
+				},
+				"fundingEntityId": {
+					"$ref": "#/definitions/xsd:string"
+				},
+				"hardConstraintOnDropoffTime": {
+					"$ref": "#/definitions/xsd:boolean"
+				},
+				"hardConstraintOnPickupTime": {
+					"$ref": "#/definitions/xsd:boolean"
+				},
+				"negotiatedPickupTime": {
+					"$ref": "#/definitions/time"
+				},
+				"numOtherReservedPassengers": {
+					"$ref": "#/definitions/xsd:integer"
+				},
+				"pickupAddress": {
+					"$ref": "#/definitions/addressType"
+				},
+				"pickupTime": {
+					"$ref": "#/definitions/time"
+				},
+				"pickupWindowEndTime": {
+					"$ref": "#/definitions/time"
+				},
+				"pickupWindowStartTime": {
+					"$ref": "#/definitions/time"
+				},
+				"tripTicketId": {
+					"$ref": "#/definitions/xsd:string",
+					"description": "unique ID from ordering client"
+				}
+			},
+			"required": [
+				"customerName",
+				"dropoffAddress",
+				"fundingEntityId",
+				"pickupAddress",
+				"pickupTime",
+				"tripTicketId"
+			],
+			"type": "object"
+		},
+		"customerInfoType": {
+			"additionalProperties": false,
+			"description": "Telegram #: 2A1; From: ordering client; To: trip provider(s); Purpose: customer info for trip",
+			"properties": {
+				"caregiverContactInformation": {
+					"$ref": "#/definitions/xsd:string"
+				},
+				"customerAddress": {
+					"$ref": "#/definitions/addressType"
+				},
+				"customerBillingAddress": {
+					"$ref": "#/definitions/addressType"
+				},
+				"customerEmergencyContactName": {
+					"$ref": "#/definitions/xsd:string"
+				},
+				"customerEmergencyPhoneNumber": {
+					"$ref": "#/definitions/xsd:integer"
+				},
+				"customerId": {
+					"$ref": "#/definitions/xsd:string"
+				},
+				"customerMobilePhone": {
+					"$ref": "#/definitions/xsd:integer"
+				},
+				"customerName": {
+					"$ref": "#/definitions/xsd:string"
+				},
+				"customerPhone": {
+					"$ref": "#/definitions/xsd:integer"
+				},
+				"dateOfBirth": {
+					"$ref": "#/definitions/xsd:date"
+				},
+				"fundingEntityBillingInformation": {
+					"$ref": "#/definitions/xsd:string"
+				},
+				"fundingType": {
+					"$ref": "#/definitions/xsd:boolean"
+				},
+				"gender": {
+					"$ref": "#/definitions/xsd:string"
+				},
+				"notesForDriver": {
+					"$ref": "#/definitions/xsd:string"
+				},
+				"paymentType": {
+					"$ref": "#/definitions/paymentTypeList"
+				},
+				"requiredCareComments": {
+					"$ref": "#/definitions/xsd:string"
+				}
+			},
+			"type": "object"
+		},
+		"geographicLocation": {
+			"additionalProperties": false,
+			"description": "The coordinates for the address and potentially a known zone",
+			"properties": {
+				"@deviationSpeed": {
+					"$ref": "#/definitions/xsd:float"
+				},
+				"@direction": {
+					"$ref": "#/definitions/xsd:integer"
+				},
+				"@height": {
+					"$ref": "#/definitions/xsd:float"
+				},
+				"@lat": {
+					"$ref": "#/definitions/xsd:float"
+				},
+				"@long": {
+					"$ref": "#/definitions/xsd:float"
+				},
+				"@precision": {
+					"$ref": "#/definitions/xsd:integer"
+				},
+				"@speed": {
+					"$ref": "#/definitions/xsd:float"
+				},
+				"@speedSource": {
+					"enum": [
+						"gpsunit",
+						"taximeter"
+					],
+					"type": "string"
+				},
+				"@typeOfCoordinate": {
+					"enum": [
+						"WGS84",
+						"WGS-84",
+						"RT90"
+					],
+					"type": "string"
+				},
+				"@zone": {
+					"$ref": "#/definitions/xsd:string"
+				},
+				"vehicleDistance": {
+					"anyOf": [
+						{
+							"$ref": "#/definitions/vehicleDistance"
+						},
+						{
+							"items": {
+								"$ref": "#/definitions/vehicleDistance"
+							},
+							"type": "array"
+						}
+					]
+				}
+			},
+			"required": [
+				"@typeOfCoordinate",
+				"@precision",
+				"@lat",
+				"@long"
+			],
+			"type": "object"
+		},
+		"idType": {
+			"additionalProperties": false,
+			"description": "General type identification-element",
+			"properties": {
+				"@id": {
+					"type": "string"
+				},
+				"@src": {
+					"type": "string"
+				},
+				"@unique": {
+					"$ref": "#/definitions/xsd:boolean"
+				}
+			},
+			"required": [
+				"@src",
+				"@id"
+			],
+			"type": "object"
+		},
+		"manualDescriptionType": {
+			"additionalProperties": false,
+			"description": "Any text aimed for operators, drivers etc",
+			"properties": {
+				"@manualText": {
+					"$ref": "#/definitions/xsd:string"
+				},
+				"@sendingOperator": {
+					"$ref": "#/definitions/xsd:anySimpleType"
+				},
+				"@sendtoInvoice": {
+					"$ref": "#/definitions/xsd:boolean"
+				},
+				"@sendtoOperator": {
+					"$ref": "#/definitions/xsd:boolean"
+				},
+				"@sendtoVehicle": {
+					"$ref": "#/definitions/xsd:boolean"
+				},
+				"@vehicleConfirmation": {
+					"$ref": "#/definitions/xsd:boolean"
+				},
+				"idActionText": {
+					"$ref": "#/definitions/idType"
+				},
+				"textTimestamp": {
+					"$ref": "#/definitions/time"
+				}
+			},
+			"required": [
+				"@sendtoInvoice",
+				"@manualText",
+				"@sendtoVehicle",
+				"@sendtoOperator",
+				"@vehicleConfirmation"
+			],
+			"type": "object"
+		},
+		"paymentTypeList": {
+			"items": {
+				"enum": [
+					"cash",
+					"card",
+					"account",
+					"ticket",
+					"noShow",
+					"providerCompensation"
+				],
+				"type": "string"
+			},
+			"type": "array"
+		},
+		"providerOrderConfirmationType": {
+			"additionalProperties": false,
+			"description": "Telegram #: 2B; From: trip provider; To: ordering client; Purpose: confirm trip is scheduled",
+			"properties": {
+				"@driverId": {
+					"$ref": "#/definitions/xsd:string"
+				},
+				"@fareAmount": {
+					"$ref": "#/definitions/xsd:float"
+				},
+				"@paymentType": {
+					"$ref": "#/definitions/paymentTypeList"
+				},
+				"@transportServices": {
+					"$ref": "#/definitions/valueList"
+				},
+				"@vehicleInformation": {
+					"$ref": "#/definitions/xsd:string"
+				},
+				"@vehicleNumber": {
+					"$ref": "#/definitions/xsd:string"
+				},
+				"scheduledDropoffPoint": {
+					"$ref": "#/definitions/addressType"
+				},
+				"scheduledPickupPoint": {
+					"$ref": "#/definitions/addressType"
+				},
+				"scheduledPickupTime": {
+					"$ref": "#/definitions/time"
+				},
+				"transferPoint": {
+					"$ref": "#/definitions/addressType"
+				},
+				"tripTicketId": {
+					"$ref": "#/definitions/xsd:string",
+					"description": "unique ID from ordering client"
+				}
+			},
+			"required": [
+				"scheduledDropoffPoint",
+				"scheduledPickupPoint",
+				"scheduledPickupTime",
+				"tripTicketId"
+			],
+			"type": "object"
+		},
+		"specialAttributesList": {
+			"items": {
+				"enum": [
+					"A",
+					"AL",
+					"C",
+					"CU",
+					"D2D",
+					"DA",
+					"DTD",
+					"E",
+					"HIP",
+					"IDD",
+					"KD",
+					"MH",
+					"MIP",
+					"NDD",
+					"NLA",
+					"O",
+					"S",
+					"SA",
+					"SD",
+					"SI",
+					"TD",
+					"U",
+					"VIP",
+					"W",
+					"WA",
+					"WAK",
+					"WE",
+					"WT",
+					"WW"
+				],
+				"type": "string"
+			},
+			"type": "array"
+		},
+		"time": {
+			"additionalProperties": false,
+			"description": "Should normally be the local time.",
+			"properties": {
+				"@dwellTime": {
+					"$ref": "#/definitions/xsd:int"
+				},
+				"@time": {
+					"$ref": "#/definitions/xsd:dateTime"
+				},
+				"@timeAccuracy": {
+					"$ref": "#/definitions/xsd:string"
+				},
+				"@timeType": {
+					"enum": [
+						"2101",
+						"scheduledtime",
+						"2102",
+						"estimatedtime",
+						"2103",
+						"promisedtime",
+						"2104",
+						"actual",
+						"2105",
+						"scheduled",
+						"2107",
+						"estimated",
+						"2106",
+						"promised",
+						"2108",
+						"asap",
+						"estimatedEndtime",
+						"estimatedStarttime"
+					],
+					"type": "string"
+				},
+				"@timeZone": {
+					"$ref": "#/definitions/xsd:integer"
+				}
+			},
+			"required": [
+				"@time"
+			],
+			"type": "object"
+		},
+		"tripPurposeList": {
+			"items": {
+				"enum": [
+					"A",
+					"D",
+					"E",
+					"G",
+					"HR",
+					"M",
+					"P",
+					"R",
+					"T"
+				],
+				"type": "string"
+			},
+			"type": "array"
+		},
+		"tripRequestResponseType": {
+			"additionalProperties": false,
+			"description": "Telegram #: 1B; From: trip provider; To: ordering client; Purpose: reply to telegram 1A",
+			"properties": {
+				"@fareAmount": {
+					"$ref": "#/definitions/xsd:float"
+				},
+				"@paymentTypeList": {
+					"$ref": "#/definitions/xsd:anySimpleType"
+				},
+				"@transportServices": {
+					"$ref": "#/definitions/valueList"
+				},
+				"scheduledDropoffPoint": {
+					"$ref": "#/definitions/addressType"
+				},
+				"scheduledPickupPoint": {
+					"$ref": "#/definitions/addressType"
+				},
+				"scheduledPickupTime": {
+					"$ref": "#/definitions/time"
+				},
+				"transferPoint": {
+					"$ref": "#/definitions/addressType"
+				},
+				"tripAvailable": {
+					"$ref": "#/definitions/xsd:boolean"
+				}
+			},
+			"type": "object"
+		},
+		"tripRequestType": {
+			"additionalProperties": false,
+			"description": "Telegram #: 1A; From: ordering client; To: trip provider(s); Purpose: query for trip availability",
+			"properties": {
+				"@openAttribute": {
+					"$ref": "#/definitions/xsd:string"
+				},
+				"@specialAttributes": {
+					"$ref": "#/definitions/specialAttributesList"
+				},
+				"@transportServices": {
+					"$ref": "#/definitions/valueList"
+				},
+				"appointmentTime": {
+					"$ref": "#/definitions/time"
+				},
+				"detoursPermissible": {
+					"$ref": "#/definitions/xsd:boolean"
+				},
+				"dropoffAddress": {
+					"$ref": "#/definitions/addressType"
+				},
+				"dropoffTime": {
+					"$ref": "#/definitions/time"
+				},
+				"hardConstraintOnDropoffTime": {
+					"$ref": "#/definitions/xsd:boolean"
+				},
+				"hardConstraintOnPickupTime": {
+					"$ref": "#/definitions/xsd:boolean"
+				},
+				"negotiatedPickupTime": {
+					"$ref": "#/definitions/time"
+				},
+				"pickupAddress": {
+					"$ref": "#/definitions/addressType"
+				},
+				"pickupTime": {
+					"$ref": "#/definitions/time"
+				},
+				"pickupWindowEndTime": {
+					"$ref": "#/definitions/time"
+				},
+				"pickupWindowStartTime": {
+					"$ref": "#/definitions/time"
+				}
+			},
+			"required": [
+				"dropoffAddress",
+				"pickupAddress",
+				"pickupTime"
+			],
+			"type": "object"
+		},
+		"tripScheduledConfirmationType": {
+			"additionalProperties": false,
+			"description": "Telegram #: 4B; From: trip provider; To: ordering client; Purpose: confirm trip is scheduled for vehicle",
+			"properties": {
+				"@paymentRejected": {
+					"$ref": "#/definitions/xsd:boolean"
+				},
+				"dataReceived": {
+					"$ref": "#/definitions/xsd:boolean"
+				},
+				"tripTicketId": {
+					"$ref": "#/definitions/xsd:string",
+					"description": "unique ID from ordering client"
+				}
+			},
+			"required": [
+				"dataReceived",
+				"tripTicketId"
+			],
+			"type": "object"
+		},
+    "tripTaskCompletionType": {
+      "additionalProperties": false,
+      "description": "Telegram #: 4A; From: trip provider(s); To: ordering client; Purpose: performed trip data",
+      "properties": {
+        "@fareAmount": {
+          "$ref": "#/definitions/xsd:float"
+        },
+        "@paymentType": {
+          "$ref": "#/definitions/paymentTypeList"
+        },
+        "@specialAttributes": {
+          "$ref": "#/definitions/specialAttributesList"
+        },
+        "@transportServices": {
+          "$ref": "#/definitions/valueList"
+        },
+        "cost": {
+          "$ref": "#/definitions/xsd:float"
+        },
+        "detoursPermissible": {
+          "$ref": "#/definitions/xsd:boolean"
+        },
+        "dropoffAddress": {
+          "$ref": "#/definitions/addressType"
+        },
+        "dropoffTime": {
+          "$ref": "#/definitions/time"
+        },
+        "performedDropoffPoint": {
+          "$ref": "#/definitions/addressType"
+        },
+        "performedDropoffTime": {
+          "$ref": "#/definitions/time"
+        },
+        "performedPickupPoint": {
+          "$ref": "#/definitions/addressType"
+        },
+        "performedPickupTime": {
+          "$ref": "#/definitions/time"
+        },
+        "pickupAddress": {
+          "$ref": "#/definitions/addressType"
+        },
+        "pickupTime": {
+          "$ref": "#/definitions/time"
+        },
+        "scheduledDropoffPoint": {
+          "$ref": "#/definitions/addressType"
+        },
+        "scheduledDropoffTime": {
+          "$ref": "#/definitions/time"
+        },
+        "scheduledPickupPoint": {
+          "$ref": "#/definitions/addressType"
+        },
+        "scheduledPickupTime": {
+          "$ref": "#/definitions/time"
+        },
+        "transferPoint": {
+          "$ref": "#/definitions/addressType"
+        },
+        "tripTicketId": {
+          "$ref": "#/definitions/xsd:string",
+          "description": "unique ID from ordering client"
+        }
+      },
+      "required": [
+        "cost",
+        "dropoffTime",
+        "pickupTime",
+        "tripTicketId"
+      ],
+      "type": "object"
+    },
+    "tripTaskConfirmationType": {
+			"additionalProperties": true,
+			"description": "Telegram #: 3B; From: vehicle; To: trip provider; Purpose: confirm vehicle performed task",
+			"properties": {
+				"@driverId": {
+					"$ref": "#/definitions/xsd:string"
+				},
+				"@tripStatus": {
+					"enum": [
+						"performed",
+						"no show",
+						"no pickup"
+					],
+					"type": "string"
+				},
+				"customerLocInDropoffSequence": {
+					"$ref": "#/definitions/xsd:positiveInteger"
+				},
+				"nodePerformedTime": {
+					"$ref": "#/definitions/time"
+				},
+				"tripTaskId": {
+					"$ref": "#/definitions/xsd:string",
+					"description": "unique ID from provider"
+				},
+				"tripTicketId": {
+					"$ref": "#/definitions/xsd:string",
+					"description": "unique ID from ordering client"
+				},
+				"vehicleNumber": {
+					"$ref": "#/definitions/xsd:string"
+				}
+			},
+			"required": [
+				"customerLocInDropoffSequence",
+        "nodePerformedTime",
+        "tripStatus",
+				"tripTaskId",
+				"tripTicketId",
+				"vehicleNumber"
+			],
+			"type": "object"
+		},
+		"tripTaskStatusType": {
+			"additionalProperties": false,
+			"description": "Telegram #: 5; From: vehicle; To: trip provider; Purpose: GPS and trip status",
+			"properties": {
+				"@boardingsAndAlightingsAtTripEnd": {
+					"$ref": "#/definitions/xsd:string"
+				},
+				"@driverHours": {
+					"$ref": "#/definitions/xsd:float"
+				},
+				"@odometerReading": {
+					"$ref": "#/definitions/xsd:float"
+				},
+				"@otherFleetVariables": {
+					"$ref": "#/definitions/xsd:string"
+				},
+				"@passengerMiles": {
+					"$ref": "#/definitions/xsd:float"
+				},
+				"@vehicleHours": {
+					"$ref": "#/definitions/xsd:float"
+				},
+				"@vehicleMiles": {
+					"$ref": "#/definitions/xsd:float"
+				},
+				"GPS": {
+					"$ref": "#/definitions/geographicLocation"
+				},
+				"driverId": {
+					"$ref": "#/definitions/xsd:string"
+				},
+				"timecode": {
+					"$ref": "#/definitions/time"
+				},
+				"tripTaskId": {
+					"$ref": "#/definitions/xsd:string",
+					"description": "unique ID from provider"
+				},
+				"vehicleNumber": {
+					"$ref": "#/definitions/xsd:string"
+				}
+			},
+			"required": [
+				"GPS",
+				"timecode",
+				"vehicleNumber"
+			],
+			"type": "object"
+		},
+		"tripTaskType": {
+			"additionalProperties": false,
+			"description": "Telegram #: 3A; From: trip provider; To: vehicle; Purpose: control vehicle",
+			"properties": {
+				"@fareAmount": {
+					"$ref": "#/definitions/xsd:float"
+				},
+				"@notesForDriver": {
+					"$ref": "#/definitions/xsd:string"
+				},
+				"@paymentType": {
+					"$ref": "#/definitions/paymentTypeList"
+				},
+				"@specialAttributes": {
+					"$ref": "#/definitions/specialAttributesList"
+				},
+				"customerPickupLocInVehPerformanceSequence": {
+					"$ref": "#/definitions/xsd:positiveInteger"
+				},
+				"customerDropoffLocInVehPerformanceSequence": {
+					"$ref": "#/definitions/xsd:positiveInteger"
+				},
+				"customerMobilePhone": {
+					"$ref": "#/definitions/xsd:integer"
+				},
+				"customerName": {
+					"$ref": "#/definitions/xsd:string"
+				},
+				"detailedPickupLocationDescription": {
+					"$ref": "#/definitions/xsd:string"
+				},
+				"detailedDropoffLocationDescription": {
+					"$ref": "#/definitions/xsd:string"
+				},
+				"pickupNodeAddress": {
+					"$ref": "#/definitions/addressType"
+				},
+				"pickupNodeScheduledTime": {
+					"$ref": "#/definitions/time"
+				},
+				"dropoffNodeAddress": {
+					"$ref": "#/definitions/addressType"
+				},
+				"dropoffNodeScheduledTime": {
+					"$ref": "#/definitions/time"
+				},
+				"numOtherReservedPassengers": {
+					"$ref": "#/definitions/xsd:integer"
+				},
+				"tripTaskId": {
+					"$ref": "#/definitions/xsd:string",
+					"description": "unique ID from provider"
+				},
+				"tripTicketId": {
+					"$ref": "#/definitions/xsd:string",
+					"description": "unique ID from ordering client"
+				}
+			},
+			"required": [
+				"customerPickupLocInVehPerformanceSequence", 
+				"pickupNodeAddress",
+				"pickupNodeScheduledTime",
+				"customerDropoffLocInVehPerformanceSequence",
+				"dropoffNodeAddress",
+				"dropoffNodeScheduledTime",
+				"customerName",
+				"tripTaskId",
+				"tripTicketId"
+			],
+			"type": "object"
+		},
+		"valueList": {
+			"items": {
+				"type": "string"
+			},
+			"type": "array"
+		},
+		"vehicleConfirmationType": {
+			"additionalProperties": false,
+			"description": "Telegram #: 2BB; From: trip provider; To: ordering client; Purpose: confirm vehicle",
+			"properties": {
+				"@ambulatorySpacePoints": {
+					"$ref": "#/definitions/xsd:integer"
+				},
+				"@cargoSpacePoints": {
+					"$ref": "#/definitions/xsd:integer"
+				},
+				"@conversionFactorForAmbulatoryPointsToLargeWheelchairPoints": {
+					"$ref": "#/definitions/xsd:float"
+				},
+				"@conversionFactorForAmbulatoryPointsToStandardWheelchairPoints": {
+					"$ref": "#/definitions/xsd:float"
+				},
+				"@flatFloor": {
+					"$ref": "#/definitions/xsd:string"
+				},
+				"@fuelRange": {
+					"$ref": "#/definitions/xsd:float"
+				},
+				"@hasLift": {
+					"$ref": "#/definitions/xsd:boolean"
+				},
+				"@hasRamp": {
+					"$ref": "#/definitions/xsd:boolean"
+				},
+				"@largeWheelchairSpacePoints": {
+					"$ref": "#/definitions/xsd:integer"
+				},
+				"@owner": {
+					"$ref": "#/definitions/xsd:string"
+				},
+				"@rideVibrationQuality": {
+					"$ref": "#/definitions/xsd:string"
+				},
+				"@standardWheelchairSpacePoints": {
+					"$ref": "#/definitions/xsd:integer"
+				},
+				"@vehicleId": {
+					"$ref": "#/definitions/xsd:integer"
+				},
+				"@vehicleModel": {
+					"$ref": "#/definitions/xsd:string"
+				},
+				"availabilityForService": {
+					"$ref": "#/definitions/time"
+				},
+				"driverId": {
+					"$ref": "#/definitions/xsd:string"
+				},
+				"vehicleInformation": {
+					"$ref": "#/definitions/xsd:string"
+				},
+				"vehicleNumber": {
+					"$ref": "#/definitions/xsd:string"
+				}
+			},
+			"type": "object"
+		},
+		"vehicleDistance": {
+			"additionalProperties": false,
+			"properties": {
+				"@range": {
+					"$ref": "#/definitions/xsd:int"
+				},
+				"@rangeUnit": {
+					"enum": [
+						"meter",
+						"seconds"
+					],
+					"type": "string"
+				},
+				"startTime": {
+					"$ref": "#/definitions/time",
+					"description": "The time period to propose car starts"
+				},
+				"stopTime": {
+					"$ref": "#/definitions/time",
+					"description": "The time period to propose car stops"
+				}
+			},
+			"required": [
+				"startTime",
+				"stopTime"
+			],
+			"type": "object"
+		},
+		"xsd:anySimpleType": {
+			"type": "string"
+		},
+		"xsd:boolean": {
+			"type": "boolean"
+		},
+		"xsd:date": {
+			"type": "string"
+		},
+		"xsd:dateTime": {
+			"type": "string"
+		},
+		"xsd:float": {
+			"type": "number"
+		},
+		"xsd:int": {
+			"maximum": 2147483647,
+			"minimum": -2147483648,
+			"type": "integer"
+		},
+		"xsd:integer": {
+			"type": "integer"
+		},
+		"xsd:positiveInteger": {
+			"minimum": 1,
+			"type": "integer"
+		},
+		"xsd:string": {
+			"type": "string"
+		}
+	},
+	"description": "JSON Schema generated by XMLSpy v2018 rel. 2 (x64) (http://www.altova.com)",
+	"properties": {
+		"@xmlns:xsd": {
+			"default": "http://www.w3.org/2001/XMLSchema"
+		},
+		"clientOrderConfirmation": {
+			"$ref": "#/definitions/.clientOrderConfirmation"
+		},
+		"customerInfo": {
+			"$ref": "#/definitions/.customerInfo"
+		},
+		"providerOrderConfirmation": {
+			"$ref": "#/definitions/.providerOrderConfirmation"
+		},
+		"tripRequest": {
+			"$ref": "#/definitions/.tripRequest"
+		},
+		"tripRequestResponse": {
+			"$ref": "#/definitions/.tripRequestResponse"
+		},
+		"tripScheduledConfirmation": {
+			"$ref": "#/definitions/.tripScheduledConfirmation"
+		},
+		"tripTask": {
+			"$ref": "#/definitions/.tripTask"
+		},
+		"tripTaskCompletion": {
+			"$ref": "#/definitions/.tripTaskCompletion"
+		},
+		"tripTaskConfirmation": {
+			"$ref": "#/definitions/.tripTaskConfirmation"
+		},
+		"tripTaskStatus": {
+			"$ref": "#/definitions/.tripTaskStatus"
+		},
+		"vehicleConfirmation": {
+			"$ref": "#/definitions/.vehicleConfirmation"
+		}
+	},
+	"type": "object"
+}
