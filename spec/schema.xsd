@@ -18,7 +18,7 @@
 		<xsd:annotation>
 			<xsd:documentation>Telegram #: 1C; Sent from ordering client To: trip provider(s) or ; trip provider to ordering client Purpose: to report trip status change due to being canceled or no longer available</xsd:documentation>
 		</xsd:annotation>
-		<xsd:attribute name="tripTicketId" type="xsd:int" use="required"></xsd:attribute>
+		<xsd:attribute name="tripTicketId" type="xsd:string" use="required"></xsd:attribute>
 		<xsd:attribute name="status" use="required">
 			<xsd:annotation>
 				<xsd:documentation>Status to change.</xsd:documentation>
