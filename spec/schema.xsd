@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xsd:schema xmlns:tcrp="http://www.tcrp.gov/schema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" version="0.5">
+<xsd:schema xmlns:tcrp="http://www.tcrp.gov/schema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" version="0.7">
 	<xsd:element name="tripRequest" type="tripRequestType" />
 	<xsd:element name="tripRequestResponse" type="tripRequestResponseType" />
 	<xsd:element name="clientOrderConfirmation" type="clientOrderConfirmationType" />
@@ -391,12 +391,11 @@
 				<xsd:documentation>Used to indicate accepted deviation in attribute time</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
-		<xsd:attribute name="timeZone" type="xsd:integer" use="optional">
+		<xsd:attribute name="time" type="xsd:dateTime" use="required" form="unqualified">
 			<xsd:annotation>
-				<xsd:documentation>Timezone used in comunication. Default is local timezone. See ISO 8601 for more information.</xsd:documentation>
+				<xsd:documentation>Must include time zone information. See ISO 8601 for more information.</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
-		<xsd:attribute name="time" type="xsd:dateTime" use="required" form="unqualified" />
 		<xsd:attribute name="dwellTime" type="xsd:int" use="optional">
 			<xsd:annotation>
 				<xsd:documentation>Time used to finish this node</xsd:documentation>
@@ -720,7 +719,7 @@
 		</xsd:attribute>
 		<xsd:attribute name="precision" type="xsd:integer" use="required">
 			<xsd:annotation>
-				<xsd:documentation>Precision skall be from GPS-unit in vehicle and measured in meter. This is the deviation in position measured by the &gt;GPS-unit.</xsd:documentation>
+				<xsd:documentation>Precision shall be from GPS-unit in vehicle and measured in meter. This is the deviation in position measured by the &gt;GPS-unit.</xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
 		<xsd:attribute name="speed" type="xsd:float" use="optional">
