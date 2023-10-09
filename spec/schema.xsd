@@ -383,9 +383,6 @@
 		</xsd:attribute>
 	</xsd:complexType>
 	<xsd:complexType name="time">
-		<xsd:annotation>
-			<xsd:documentation>Should normally be the local time.</xsd:documentation>
-		</xsd:annotation>
 		<xsd:attribute name="timeAccuracy" type="xsd:string" use="optional">
 			<xsd:annotation>
 				<xsd:documentation>Used to indicate accepted deviation in attribute time</xsd:documentation>
