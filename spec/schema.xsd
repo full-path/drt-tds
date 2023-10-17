@@ -207,11 +207,6 @@
 					<xsd:documentation>unique ID from provider</xsd:documentation>
 				</xsd:annotation>
 			</xsd:element>
-			<xsd:element name="tripTicketId" type="xsd:string">
-				<xsd:annotation>
-					<xsd:documentation>unique ID from ordering client</xsd:documentation>
-				</xsd:annotation>
-			</xsd:element>
 			<xsd:element name="customerPickupLocInVehPerformanceSequence" type="xsd:positiveInteger" />
 			<xsd:element name="pickupNodeAddress" type="addressType" />
 			<xsd:element name="pickupNodeScheduledTime" type="time" />
