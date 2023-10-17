@@ -359,14 +359,14 @@
 			<xsd:annotation>
 				<xsd:documentation>  ex: McDonalds </xsd:documentation>
 			</xsd:annotation>
-		<xsd:attribute> 
+		</xsd:attribute> 
 		<xsd:attribute name="street" type="xsd:string" use="required" />
 		<xsd:attribute name="street2" type="xsd:positiveInteger" use="optional" />
 		<xsd:attribute name="notes" type="xsd:string" use="optional" >
 			<xsd:annotation>
 				<xsd:documentation>  ex: Green door around the back.</xsd:documentation>
 			</xsd:annotation>
-		<xsd:attribute>
+		</xsd:attribute>
 		<xsd:attribute name="city" type="xsd:string" use="required" />
 		<xsd:attribute name="state" type="xsd:string" use="required" />
 		<xsd:attribute name="postalcode" type="xsd:string" use="required" />
