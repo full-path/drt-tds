@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xsd:schema xmlns:tcrp="http://www.tcrp.gov/schema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" version="0.7">
+<xsd:schema xmlns:tcrp="http://www.tcrp.gov/schema" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified" version="0.8">
+	<xsd:element name="customerReferral" type="customerReferralType" />
+	<xsd:element name="customerReferralResponse" type="customerReferralResponseType" />
 	<xsd:element name="tripRequest" type="tripRequestType" />
 	<xsd:element name="tripRequestResponse" type="tripRequestResponseType" />
 	<xsd:element name="clientOrderConfirmation" type="clientOrderConfirmationType" />
@@ -12,6 +14,35 @@
 	<xsd:element name="tripScheduledConfirmation" type="tripScheduledConfirmationType" />
 	<xsd:element name="tripTaskStatus" type="tripTaskStatusType" />
 	<xsd:element name="tripStatusChange" type="tripStatusChangeType" />
+	<xsd:complexType name="customerReferralType">
+		<xsd:annotation>
+			<xsd:documentation>Telegram #: 0A; From: ordering client; To: trip provider; Purpose: Send customer information to provider for possible services</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="customerReferralId" type="xsd:string" use="required">
+				<xsd:annotation>
+					<xsd:documentation>unique ID from ordering client</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="customerContactDate" type="xsd:date" use="required" />
+			<xsd:element name="notes" type="xsd:string" use="optional" />
+			<xsd:element name="customerInfo" type="customerInfoType" minOccurs="0" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="customerReferralResponseType">
+		<xsd:annotation>
+			<xsd:documentation>Telegram #: 0B; From: trip provider; To: ordering client; Purpose: provide ordering client with information about action taken in response to customer referral</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="customerReferralId" type="xsd:string" use="required">
+				<xsd:annotation>
+					<xsd:documentation>unique ID from ordering client</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="referralResponseType" type="xsd:string" use="optional" />
+			<xsd:element name="notes" type="xsd:string" use="optional" />
+		</xsd:sequence>
+	</xsd:complexType>
 	<xsd:complexType name="tripStatusChangeType">
 		<xsd:annotation>
 			<xsd:documentation>Telegram #: 1C; Sent from ordering client To: trip provider(s) or ; trip provider to ordering client Purpose: to report trip status change due to being canceled or no longer available</xsd:documentation>
